@@ -1,0 +1,260 @@
+.container {
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(44, 44, 84, 0.9);
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+/* Biometric Button */
+.biometricButton {
+    display: flex;
+    align-items: center;
+    background-color: #6f6f6f;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+    text-transform: uppercase;
+    justify-content: flex-start; /* Выровнять содержимое по началу */
+}
+
+.biometricButton img {
+    margin-right: 15px; /* Отступ между иконкой и текстом */
+    width: 30px;
+    height: 30px;
+}
+
+.biometricText {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Выровнять текст по началу */
+}
+
+.biometricText div {
+    font-weight: bold;
+}
+
+.biometricText small {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* Модальное окно для ошибок и сброса пароля */
+.errorPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(44, 44, 84, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    color: #fff;
+    text-align: center;
+    z-index: 1000;
+    width: 300px; /* Ширина модального окна */
+}
+
+.errorMessage {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.errorPopup input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.okButton {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px; /* Добавляем отступ между кнопками */
+    font-size: 14px;
+    width: 100%; /* Кнопки на всю ширину */
+}
+
+.okButton:hover {
+    background-color: #2980b9;
+}
+
+/* Остальные стили */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.tabs .active {
+    border-bottom: 2px solid #3498db;
+}
+
+.form {
+    display: block;
+    margin-top: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.passwordContainer {
+    position: relative;
+}
+
+.passwordToggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: left;
+}
+
+.checkboxContainer input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.submitButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #fbd602;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.submitButton:hover {
+    background-color: #fdd700;
+}
+
+.forgotPassword,
+.backToHome {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: #3498db;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.success-checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4CAF50;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    z-index: 1000;
+}
+
+.checkmark-icon {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkmark-icon:before {
+    content: "✔";
+    font-size: 30px;
+    color: #4CAF50;
+}
+
+.show-checkmark {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Индикатор загрузки */
+#loadingSpinner {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    border-top-color: #3498db;
+    animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align: left;
+}

@@ -1,0 +1,35 @@
+.dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #1c1c2b;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    color: white;
+}
+
+.bottomNav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #000;
+    border-top: 1px solid #333;
+}
+
+.navItem {
+    text-align: center;
+    color: #fff;
+}
+
+.navItem img {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 5px;
+}
+
+.navItem span {
+    font-size: 12px;
+}

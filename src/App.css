@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+    background-color: #000; 
+}
+
+body {
+    font-family: 'Futura PT Book', sans-serif;
+}
+
+h1 {
+    font-family: 'Futura PT Bold', sans-serif;
+}
+
+.header {
+    font-family: 'Futura PT Cond Extra Bold', sans-serif;
+}
+button {
+    font-family: 'Futura PT Bold', sans-serif; /
+}

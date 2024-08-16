@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Futura PT Bold';
+    src: url('./futura_pt_bold.woff2') format('woff2'),
+         url('./futura_pt_bold.woff') format('woff'),
+         url('./futura_pt_bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura PT Book';
+    src: url('./futura_pt_book.woff2') format('woff2'),
+         url('./futura_pt_book.woff') format('woff'),
+         url('./futura_pt_book.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura PT Cond Extra Bold';
+    src: url('./futura_pt_cond_extra_bold.woff2') format('woff2'),
+         url('./futura_pt_cond_extra_bold.woff') format('woff'),
+         url('./futura_pt_cond_extra_bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
