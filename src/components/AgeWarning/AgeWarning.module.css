@@ -1,0 +1,22 @@
+.ageWarningBanner {
+    background-color: #00000072;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ageWarningBanner p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.ageWarningBanner .icon {
+    margin-left: 8px;
+    width: 20px; 
+    height: auto;
+}

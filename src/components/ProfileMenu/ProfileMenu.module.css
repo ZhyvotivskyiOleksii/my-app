@@ -11,6 +11,9 @@
     display: flex;
     flex-direction: column;
 }
+span{
+    font-size: 20px;
+}
 
 .profileMenu.open {
     right: 0;
@@ -20,7 +23,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 0 30px;
     background-color: #ffd700;
     color: black;
 }
@@ -77,13 +80,14 @@
 .premiumStatus {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .status {
     font-weight: bold;
     text-transform: uppercase;
     font-size: 16px;
+    margin-bottom: 20px; /* Отступ для кнопки */
 }
 
 .status.active {
@@ -149,6 +153,19 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
+}
+
+.getPremiumButton {
+    padding: 10px 10px;
+    background-color: #ffd700;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px; 
+    align-self: center;
+    text-align: center;
 }
 
 .logoutButton {

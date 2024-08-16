@@ -9,6 +9,7 @@
     flex: 1;
     padding: 20px;
     color: white;
+    text-align: center; /* Центрируем текст */
 }
 
 .bottomNav {
@@ -22,6 +23,7 @@
 .navItem {
     text-align: center;
     color: #fff;
+    text-decoration: none; /* Убираем подчеркивание */
 }
 
 .navItem img {
@@ -32,4 +34,77 @@
 
 .navItem span {
     font-size: 12px;
+    display: block; /* Делает текст на новой строке под иконкой */
+}
+
+.sliderContainer {
+    margin: 0;
+}
+
+.content {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+}
+
+.title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.button {
+    background-color: #ffd700;
+    color: #000;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.navigation {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.prev,
+.next {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.indicator.active {
+    background-color: #ffd700;
 }

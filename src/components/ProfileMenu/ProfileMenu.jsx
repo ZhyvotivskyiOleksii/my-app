@@ -4,10 +4,12 @@ import logo from '../../assets/images/logos/logo.png';
 import userIcon from '../../assets/images/logos/user-icon.svg';
 import { auth, firestore } from '../../firebase';
 import { doc, getDoc } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 
 const ProfileMenu = ({ isOpen, onClose, user }) => {
     const [premiumStatus, setPremiumStatus] = useState(false);
     const [daysLeft, setDaysLeft] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (user) {
@@ -39,7 +41,7 @@ const ProfileMenu = ({ isOpen, onClose, user }) => {
         auth.signOut()
             .then(() => {
                 onClose();
-                window.location.href = '/';
+                navigate('/'); // Перенаправляем на главную страницу после выхода
             })
             .catch(error => {
                 console.error("Error signing out:", error);
@@ -71,17 +73,18 @@ const ProfileMenu = ({ isOpen, onClose, user }) => {
                         {premiumStatus ? 'PREMIUM' : 'STANDARD'}
                     </span>
                 </div>
+                {!premiumStatus && (
+                    <button className={styles.getPremiumButton} onClick={handleGetPremium}>
+                        Get Premium
+                    </button>
+                )}
                 <hr className={styles.divider} />
-                {premiumStatus ? (
+                {premiumStatus && (
                     <div className={styles.premiumInfo}>
                         Your Premium subscription is active.
                         <br />
                         Days left: <span className={styles.daysLeft}>{daysLeft} day(s)</span>
                     </div>
-                ) : (
-                    <button className={styles.getPremiumButton} onClick={handleGetPremium}>
-                        Get Premium
-                    </button>
                 )}
             </div>
             <button className={styles.logoutButton} onClick={handleLogout}>

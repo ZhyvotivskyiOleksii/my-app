@@ -4,8 +4,8 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswor
 import { doc, setDoc } from 'firebase/firestore'; // Импорт функций Firestore
 import { auth, firestore } from '../../firebase'; // Импорт auth и firestore
 import styles from './style.module.css';
-import logo from '../../assets/images/logos/logo.png';
-import faceIdIcon from '../../assets/images/faceid-icon.svg';
+import logo from '/src/assets/images/logos/logo.png'; // Изменяем путь
+import faceIdIcon from '/src/assets/images/faceid-icon.svg'; // Изменяем путь
 
 const AuthPage = () => {
     const [isSignIn, setIsSignIn] = useState(true);
