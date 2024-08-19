@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import styles from './Slider.module.css';
 
-import slide1 from '../../assets/images/slider/slide1.jpg'; 
-import slide2 from '../../assets/images/slider/slide2.jpg'; 
-import slide3 from '../../assets/images/slider/slide3.jpg'; 
-import slide4 from '../../assets/images/slider/slide4.jpg'; 
-import slide5 from '../../assets/images/slider/slide5.jpg'; 
+import slide1 from '../../assets/images/slider/slide1.png'; 
+import slide2 from '../../assets/images/slider/slide2.png'; 
+import slide3 from '../../assets/images/slider/slide3.png'; 
+import slide4 from '../../assets/images/slider/slide4.png'; 
+import slide5 from '../../assets/images/slider/slide1.png'; 
 
 const slides = [
     {
