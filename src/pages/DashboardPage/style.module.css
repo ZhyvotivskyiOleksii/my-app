@@ -52,7 +52,7 @@
 
 .sliderContainer {
     margin: 0;
-    padding-bottom: 60px; /* Отступ для нижнего меню */
+    padding-bottom: 10px; /* Отступ для нижнего меню */
 }
 
 .content {
