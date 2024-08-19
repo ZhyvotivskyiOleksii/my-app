@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore'; // Импорт функций Firestore
-import { auth, firestore } from '../../firebase'; // Импорт auth и firestore
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, firestore } from '../../firebase';
 import styles from './style.module.css';
-import logo from '/src/assets/images/logos/logo.png'; // Изменяем путь
-import faceIdIcon from '/src/assets/images/faceid-icon.svg'; // Изменяем путь
+import logo from '/src/assets/images/logos/logo.png';
+import faceIdIcon from '/src/assets/images/faceid-icon.svg';
 
 const AuthPage = () => {
     const [isSignIn, setIsSignIn] = useState(true);
@@ -14,11 +14,12 @@ const AuthPage = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [generalError, setGeneralError] = useState('');
-    const [emailForReset, setEmailForReset] = useState(''); 
-    const [resetEmailSent, setResetEmailSent] = useState(false); 
-    const [forgotPasswordModal, setForgotPasswordModal] = useState(false); 
-    const [loginAttempts, setLoginAttempts] = useState(0); 
-    const [accountLocked, setAccountLocked] = useState(false); // Состояние для блокировки аккаунта
+    const [emailForReset, setEmailForReset] = useState('');
+    const [resetEmailSent, setResetEmailSent] = useState(false);
+    const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
+    const [loginAttempts, setLoginAttempts] = useState(0);
+    const [accountLocked, setAccountLocked] = useState(false);
+    const [showLockModal, setShowLockModal] = useState(false); // Новое состояние для модального окна
     const navigate = useNavigate();
 
     const toggleForm = () => {
@@ -74,18 +75,17 @@ const AuthPage = () => {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
-                // Сохраняем данные пользователя в Firestore
                 await setDoc(doc(firestore, "users", user.uid), {
                     username: username,
                     email: email,
-                    premium: true,  // Установить премиум по умолчанию
-                    premiumExpiresAt: Date.now() + 86400000,  // Время истечения через 1 день
+                    premium: true,
+                    premiumExpiresAt: Date.now() + 86400000,
                 });
 
                 showLoadingSpinner(false);
                 showCheckmarkAnimation();
                 setTimeout(() => {
-                    navigate('/dashboard');
+                    navigate('/dashboard'); // Перенаправление на Dashboard после регистрации
                 }, 500);
             } catch (error) {
                 showLoadingSpinner(false);
@@ -121,7 +121,7 @@ const AuthPage = () => {
                 showLoadingSpinner(false);
                 showCheckmarkAnimation();
                 setTimeout(() => {
-                    navigate('/dashboard');
+                    navigate('/dashboard'); // Перенаправление на Dashboard после входа
                 }, 500);
             })
             .catch(() => {
@@ -130,11 +130,12 @@ const AuthPage = () => {
                     const newAttempts = prev + 1;
                     if (newAttempts >= 10) {
                         setAccountLocked(true);
-                        setGeneralError('Your account has been locked for 1 minute due to too many failed login attempts. Please try again later.');
+                        setShowLockModal(true);  // Показать модальное окно
                         setTimeout(() => {
                             setAccountLocked(false);
                             setLoginAttempts(0);
-                        }, 60000); // 1 минута блокировки
+                            setShowLockModal(false);  // Закрыть модальное окно после разблокировки
+                        }, 60000);
                     } else {
                         setPasswordError('Incorrect password. Please try again.');
                     }
@@ -150,7 +151,7 @@ const AuthPage = () => {
                 .then(() => {
                     setResetEmailSent(true);
                     setGeneralError('Password reset email sent. Please check your inbox.');
-                    setForgotPasswordModal(false); 
+                    setForgotPasswordModal(false);
                 })
                 .catch(() => {
                     setGeneralError('Failed to send password reset email. Please check the email address.');
@@ -242,7 +243,8 @@ const AuthPage = () => {
                         </div>
                         <button type="submit" className={styles.submitButton} onClick={handleSignIn}>Sign In</button>
                         <a href="#" className={styles.forgotPassword} onClick={() => setForgotPasswordModal(true)}>Forgot password?</a>
-                        <a href="/" className={styles.backToHome}>Back to Home</a>
+                        <a href="/my-app/home" className={styles.backToHome}>Back to Home</a>
+
                     </div>
                 ) : (
                     <div className={styles.form}>
@@ -287,17 +289,23 @@ const AuthPage = () => {
             {forgotPasswordModal && (
                 <div className={styles.errorPopup}>
                     <div className={styles.errorMessage}>
-                        <p>Your account is locked for 1 minute due to too many failed login attempts. Please try again later. If you've forgotten your password, please reset it using the button below.</p>
-                        <button onClick={() => setForgotPasswordModal(false)} className={styles.okButton}>OK</button>
+                        <p>Enter your email to reset your password.</p>
+                        <input
+                            type="email"
+                            value={emailForReset}
+                            onChange={(e) => setEmailForReset(e.target.value)}
+                        />
+                        <button className={styles.resetPasswordButton} onClick={handleForgotPassword}>Reset Password</button>
+                        <button className={styles.cancelButton} onClick={() => setForgotPasswordModal(false)}>Cancel</button>
                     </div>
                 </div>
             )}
 
-            {generalError && (
+            {showLockModal && (
                 <div className={styles.errorPopup}>
                     <div className={styles.errorMessage}>
-                        <p>{generalError}</p>
-                        <button onClick={() => setGeneralError('')} className={styles.okButton}>OK</button>
+                        <p>Your account is locked for 1 minute due to too many failed login attempts. Please try again later.</p>
+                        <button className={styles.okButton} onClick={() => setShowLockModal(false)}>OK</button>
                     </div>
                 </div>
             )}

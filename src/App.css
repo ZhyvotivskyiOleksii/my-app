@@ -25,3 +25,59 @@ h1 {
 button {
     font-family: 'Futura PT Bold', sans-serif; /
 }
+
+.dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #1c1c2b;
+}
+
+.mainContent {
+    flex: 1;
+    padding-bottom: 60px; /* Оставляет пространство для нижнего меню */
+}
+
+.bottomNav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #000;
+    border-top: 1px solid #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navItem {
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.navItem img {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 5px;
+}
+
+.navItem span {
+    font-size: 12px;
+    display: block;
+}
+
+.navItem.active {
+    color: #1ac2ff;
+}
+
+.navItem.active img {
+    filter: brightness(0) saturate(100%) invert(29%) sepia(89%) saturate(2327%) hue-rotate(185deg) brightness(92%) contrast(92%);
+}
+/* src/App.css */
+.appContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+}

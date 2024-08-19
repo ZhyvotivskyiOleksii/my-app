@@ -3,13 +3,14 @@
     flex-direction: column;
     height: 100vh;
     background-color: #1c1c2b;
+    justify-content: space-between;
 }
 
 .content {
     flex: 1;
     padding: 20px;
     color: white;
-    text-align: center; /* Центрируем текст */
+    text-align: center;
 }
 
 .bottomNav {
@@ -18,12 +19,16 @@
     padding: 10px;
     background-color: #000;
     border-top: 1px solid #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .navItem {
     text-align: center;
     color: #fff;
-    text-decoration: none; /* Убираем подчеркивание */
+    text-decoration: none;
 }
 
 .navItem img {
@@ -34,11 +39,20 @@
 
 .navItem span {
     font-size: 12px;
-    display: block; /* Делает текст на новой строке под иконкой */
+    display: block;
+}
+
+.navItem.active {
+    color: #1ac2ff;
+}
+
+.navItem.active img {
+    filter: brightness(0) saturate(100%) invert(29%) sepia(89%) saturate(2327%) hue-rotate(185deg) brightness(92%) contrast(92%);
 }
 
 .sliderContainer {
     margin: 0;
+    padding-bottom: 60px; /* Отступ для нижнего меню */
 }
 
 .content {
@@ -60,7 +74,7 @@
 }
 
 .button {
-    background-color: #ffd700;
+    background-color: #1ac2ff;
     color: #000;
     padding: 10px 15px;
     border: none;
@@ -106,5 +120,5 @@
 }
 
 .indicator.active {
-    background-color: #ffd700;
+    background-color: #1ac2ff;
 }
