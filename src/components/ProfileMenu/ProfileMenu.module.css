@@ -170,7 +170,7 @@ span{
 
 
 .logoutButton {
-    padding: 8px 10px;
+    padding: 4px 8px;
     background-color: #1ac2ff;
     color: rgb(0, 0, 0);
     border: none;
@@ -182,5 +182,5 @@ span{
     text-align: center;
     position: absolute; 
     bottom: 80px; 
-    width: calc(100% - 40px); 
+    /* width: calc(100% - 40px);  */
 }

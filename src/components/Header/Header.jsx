@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 import logo from '../../assets/images/logos/logo.png';
 import userIcon from '../../assets/images/logos/user-icon.svg';
+import bellIcon from '../../assets/images/icon/ball1.svg'; // Імпорт іконки дзвіночка
 import { auth, firestore } from '../../firebase';
 import { doc, getDoc } from "firebase/firestore";
 
@@ -67,14 +68,17 @@ const Header = ({ onProfileClick, onUserLoaded }) => {
         <header className={styles.header}>
             <img src={logo} alt="Logo" className={styles.logo} />
             {getTitle() && <h1>{getTitle()}</h1>}
-            {user ? (
-                <div className={styles.userInfo} onClick={onProfileClick}>
-                    <img src={userIcon} alt="User Icon" className={styles.userIcon} />
-                    <span className={styles.userName}>{user.displayName || user.email}</span>
-                </div>
-            ) : (
-                <button className={styles.registerButton} onClick={handleRegisterClick}>Log In</button>
-            )}
+            <div className={styles.iconsContainer}>
+                <img src={bellIcon} alt="Notifications" className={styles.bellIcon} /> {/* Додано дзвіночок */}
+                {user ? (
+                    <div className={styles.userInfo} onClick={onProfileClick}>
+                        <img src={userIcon} alt="User Icon" className={styles.userIcon} />
+                        <span className={styles.userName}>{user.displayName || user.email}</span>
+                    </div>
+                ) : (
+                    <button className={styles.registerButton} onClick={handleRegisterClick}>Log In</button>
+                )}
+            </div>
         </header>
     );
 };

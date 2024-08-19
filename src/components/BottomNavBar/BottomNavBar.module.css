@@ -9,6 +9,8 @@
     bottom: 0;
     width: 100%;
     z-index: 1000;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom)); 
+    
 }
 
 .navItem {

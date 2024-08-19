@@ -12,6 +12,18 @@
   height: 60px;
 }
 
+.iconsContainer {
+  display: flex;
+  align-items: center;
+}
+
+.bellIcon {
+  width: 24px; 
+  height: auto;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
 .registerButton {
   background-color: #000;
   color: #fff;
@@ -32,7 +44,7 @@
 .userIcon {
   width: 30px;
   height: 30px;
-  margin-bottom: 5px; /* Отступ между иконкой и именем */
+  margin-bottom: 5px; /* Відступ між іконкою та ім'ям */
 }
 
 .userName {

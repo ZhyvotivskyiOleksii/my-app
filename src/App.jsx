@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage';
 import SupportPage from './pages/SupportPage/SupportPage';
 import SportsPage from './pages/SportsPage/SportsPage';
@@ -13,6 +13,9 @@ import './assets/fonts/fonts.css';
 import './App.css';
 
 function App() {
+    const location = useLocation();
+    const hideNavBar = ['/auth', '/'].includes(location.pathname);
+
     return (
         <div className="appContainer">
             <Routes>
@@ -22,12 +25,11 @@ function App() {
                 <Route path="/coupons" element={<CouponsPage />} />
                 <Route path="/menu" element={<MenuPage />} />
                 <Route path="/auth" element={<AuthPage />} />
-
                 <Route path="/dashboard" element={<DashboardPage />} />
                 {/* Redirect any undefined paths to the HomePage */}
-                <Route path="*" element={<Navigate to="/" />} />
+                <Route path="*" element={<HomePage />} />
             </Routes>
-            <BottomNavBar />
+            {!hideNavBar && <BottomNavBar />}
         </div>
     );
 }
