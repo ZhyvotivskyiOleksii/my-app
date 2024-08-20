@@ -14,7 +14,7 @@ import './App.css';
 
 function App() {
     const location = useLocation();
-    const hideNavBar = ['/auth', '/'].includes(location.pathname);
+    const hideNavBar = ['/auth', '/homepage'].includes(location.pathname);
 
     return (
         <div className="appContainer">

@@ -4,10 +4,21 @@
     box-sizing: border-box;
 }
 
-body {
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+html, body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden; 
+    height: 100%;
+    overflow: hidden;
+}
+body {
+    padding-top: env(safe-area-inset-top); /* Для iOS */
+    padding-bottom: env(safe-area-inset-bottom); /* Для iOS */
     background-color: #000; 
 }
 
