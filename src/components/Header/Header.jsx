@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 import logo from '../../assets/images/logos/logo.png';
 import userIcon from '../../assets/images/logos/user-icon.svg';
-import bellIcon from '../../assets/images/icon/ball1.svg'; // Імпорт іконки дзвіночка
+import bellIcon from '../../assets/images/icon/bell.svg'; // Імпорт іконки дзвіночка
 import { auth, firestore } from '../../firebase';
 import { doc, getDoc } from "firebase/firestore";
 
