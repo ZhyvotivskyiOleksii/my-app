@@ -243,7 +243,7 @@ const AuthPage = () => {
                         </div>
                         <button type="submit" className={styles.submitButton} onClick={handleSignIn}>Sign In</button>
                         <a href="#" className={styles.forgotPassword} onClick={() => setForgotPasswordModal(true)}>Forgot password?</a>
-                        <a href="/my-app/homepage" className={styles.backToHome}>Back to Home</a>
+                        <a href="/my-app/" className={styles.backToHome}>Back to Home</a>
 
                     </div>
                 ) : (
