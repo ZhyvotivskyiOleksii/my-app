@@ -17,14 +17,9 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh; /* Установите высоту для корректного отображения */
-
+    /* height: 100vh;  */
 }
 
-body {
-    padding-top: env(safe-area-inset-top); /* Для iOS */
-    padding-bottom: env(safe-area-inset-bottom); /* Для iOS */
-}
 
 h1 {
     font-family: 'Futura PT Bold', sans-serif;
@@ -41,13 +36,10 @@ button {
     flex-direction: column;
     min-height: 100vh;
     background-color: #1c1c2b;
-    padding-top: 80px; /* Отступ под фиксированный хедер */
+    padding-top: 80px;  
 }
 
-.mainContent {
-    flex: 1;
-    /* padding-bottom: 60px;  */
-}
+
 
 .bottomNav {
     display: flex;
@@ -89,7 +81,7 @@ button {
 .appContainer {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    
     justify-content: space-between;
-    padding-top: 60px;
-}
+     padding-top: 60px;
+} 
