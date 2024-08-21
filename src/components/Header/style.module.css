@@ -5,7 +5,7 @@
   right: 0;
   height: 60px; /* Задайте нужную высоту */
   z-index: 1000;
-  background-color: #00AEEF; /* Цвет фона хедера */
+  background-color: #1ac2ff; /* Цвет фона хедера */
   color: white; /* Цвет текста */
   padding-top: env(safe-area-inset-top); /* Для iOS устройств */
   display: flex;
