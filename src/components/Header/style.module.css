@@ -1,12 +1,20 @@
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px; /* Задайте нужную высоту */
+  z-index: 1000;
+  background-color: #00AEEF; /* Цвет фона хедера */
+  color: white; /* Цвет текста */
+  padding-top: env(safe-area-inset-top); /* Для iOS устройств */
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 5px 30px;
-  background-color: #1ac2ff;
-  width: 100vw;
+  justify-content: space-between; /* Если нужно разместить элементы по бокам */
+  padding: 0 20px; /* Внутренние отступы */
   box-sizing: border-box;
 }
+
 
 .logo {
   height: 60px;
@@ -44,7 +52,7 @@
 .userIcon {
   width: 30px;
   height: 30px;
-  margin-bottom: 5px; /* Відступ між іконкою та ім'ям */
+  margin-bottom: 5px; 
 }
 
 .userName {

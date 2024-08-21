@@ -19,7 +19,7 @@ const AuthPage = () => {
     const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
     const [loginAttempts, setLoginAttempts] = useState(0);
     const [accountLocked, setAccountLocked] = useState(false);
-    const [showLockModal, setShowLockModal] = useState(false); // Новое состояние для модального окна
+    const [showLockModal, setShowLockModal] = useState(false);
     const navigate = useNavigate();
 
     const toggleForm = () => {
@@ -244,7 +244,6 @@ const AuthPage = () => {
                         <button type="submit" className={styles.submitButton} onClick={handleSignIn}>Sign In</button>
                         <a href="#" className={styles.forgotPassword} onClick={() => setForgotPasswordModal(true)}>Forgot password?</a>
                         <a href="/my-app/" className={styles.backToHome}>Back to Home</a>
-
                     </div>
                 ) : (
                     <div className={styles.form}>

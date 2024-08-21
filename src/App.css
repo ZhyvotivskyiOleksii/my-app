@@ -1,40 +1,39 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-#root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+/* Убрал дублирование стилей body */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
+    font-family: 'Futura PT Book', sans-serif;
+    background-color: #000;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
-body {
-    padding-top: env(safe-area-inset-top); /* Для iOS */
-    padding-bottom: env(safe-area-inset-bottom); /* Для iOS */
-    background-color: #000; 
+
+
+#root {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh; /* Установите высоту для корректного отображения */
+
 }
 
 body {
-    font-family: 'Futura PT Book', sans-serif;
+    padding-top: env(safe-area-inset-top); /* Для iOS */
+    padding-bottom: env(safe-area-inset-bottom); /* Для iOS */
 }
 
 h1 {
     font-family: 'Futura PT Bold', sans-serif;
 }
 
-.header {
-    font-family: 'Futura PT Cond Extra Bold', sans-serif;
-}
+
+
 button {
-    font-family: 'Futura PT Bold', sans-serif; /
+    font-family: 'Futura PT Bold', sans-serif;
 }
 
 .dashboardContainer {
@@ -42,11 +41,12 @@ button {
     flex-direction: column;
     min-height: 100vh;
     background-color: #1c1c2b;
+    padding-top: 80px; /* Отступ под фиксированный хедер */
 }
 
 .mainContent {
     flex: 1;
-    padding-bottom: 60px; /* Оставляет пространство для нижнего меню */
+    /* padding-bottom: 60px;  */
 }
 
 .bottomNav {
@@ -85,10 +85,11 @@ button {
 .navItem.active img {
     filter: brightness(0) saturate(100%) invert(29%) sepia(89%) saturate(2327%) hue-rotate(185deg) brightness(92%) contrast(92%);
 }
-/* src/App.css */
+
 .appContainer {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     justify-content: space-between;
+    padding-top: 60px;
 }

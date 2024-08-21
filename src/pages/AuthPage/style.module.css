@@ -1,16 +1,15 @@
+
+
 .container {
     max-width: 400px;
     width: 100%;
-    margin: 0 auto;
     padding: 20px;
     background-color: rgba(44, 44, 84, 0.9);
     border-radius: 10px;
     color: #fff;
     text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
 }
 
 .logo {
@@ -18,7 +17,6 @@
     margin-bottom: 20px;
 }
 
-/* Biometric Button */
 .biometricButton {
     display: flex;
     align-items: center;
@@ -30,14 +28,13 @@
     border-radius: 25px;
     border: none;
     cursor: pointer;
-    width: 100%;
     font-size: 14px;
     text-transform: uppercase;
-    justify-content: flex-start; /* Выровнять содержимое по началу */
+    justify-content: flex-start;
 }
 
 .biometricButton img {
-    margin-right: 15px; /* Отступ между иконкой и текстом */
+    margin-right: 15px;
     width: 30px;
     height: 30px;
 }
@@ -45,7 +42,7 @@
 .biometricText {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Выровнять текст по началу */
+    align-items: flex-start;
 }
 
 .biometricText div {
@@ -57,38 +54,6 @@
     opacity: 0.8;
 }
 
-
-.errorPopup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(44, 44, 84, 0.95);
-    padding: 30px;
-    border-radius: 15px;
-    color: #fff;
-    text-align: center;
-    z-index: 1000;
-    width: 300px; 
-}
-
-.errorMessage {
-    margin-bottom: 20px;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.errorPopup input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-}
-
-
-/* Остальные стили */
 .tabs {
     display: flex;
     justify-content: space-around;
@@ -110,7 +75,7 @@
 }
 
 .form {
-    display: block;
+    width: 100%;
     margin-top: 20px;
 }
 
@@ -123,6 +88,7 @@ input[type="password"] {
     border-radius: 5px;
     border: 1px solid #ddd;
     font-size: 14px;
+    box-sizing: border-box;
 }
 
 .passwordContainer {
@@ -174,8 +140,10 @@ input[type="password"] {
 
 .error {
     color: red;
-    font-size: 12px;
+    font-size: 14px;
+    margin-top: -10px;
     margin-bottom: 10px;
+    text-align: left;
 }
 
 .success-checkmark {
@@ -217,7 +185,6 @@ input[type="password"] {
     visibility: visible;
 }
 
-/* Индикатор загрузки */
 #loadingSpinner {
     display: none;
     position: absolute;
@@ -236,12 +203,34 @@ input[type="password"] {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-.error {
-    color: red;
+
+.errorPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(44, 44, 84, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    color: #fff;
+    text-align: center;
+    z-index: 1000;
+    width: 300px;
+}
+
+.errorMessage {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.errorPopup input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
     font-size: 14px;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    text-align: left;
 }
 
 .okButton, .resetPasswordButton, .cancelButton {
@@ -258,10 +247,10 @@ input[type="password"] {
 }
 
 .resetPasswordButton {
-    background-color: #1ac2ff; /* Жёлтая кнопка для сброса пароля */
+    background-color: #1ac2ff;
     color: black;
 }
 
 .cancelButton {
-    background-color: #6c757d; /* Серо-синяя кнопка для отмены */
+    background-color: #6c757d;
 }
