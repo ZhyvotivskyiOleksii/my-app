@@ -39,7 +39,10 @@ button {
     padding-top: 80px;  
 }
 
-
+.mainContent {
+    flex: 1;
+     padding-bottom: 60px; 
+}
 
 .bottomNav {
     display: flex;
