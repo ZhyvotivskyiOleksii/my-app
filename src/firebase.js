@@ -16,16 +16,20 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Messaging
+// Initialize Auth and Firestore
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+
+// Initialize Messaging
 const messaging = getMessaging(app);
 
-// Function to request permission and get token
+// Request permission to receive notifications and get the token
 export const requestForToken = async () => {
   try {
     const currentToken = await getToken(messaging, { vapidKey: "BEk6nBtXhbzwYRpHJbNAchNpA2NO8eMXRIVc_B1ZnPYy10jP8dWXOLLBv0Dh_35KfrzhqJPydsOmhb5UuZ1mRxg" });
     if (currentToken) {
-      console.log('FCM Token received:', currentToken);
-      // Этот токен нужно сохранить на вашем сервере или использовать для тестов
+      console.log('Token received: ', currentToken);
+      // Отправьте токен на сервер или сохраните его для использования
     } else {
       console.log('No registration token available. Request permission to generate one.');
     }
@@ -34,5 +38,13 @@ export const requestForToken = async () => {
   }
 };
 
-// Вызовите эту функцию, чтобы получить токен при загрузке приложения
-requestForToken();
+// Listener for incoming messages
+export const onMessageListener = () =>
+  new Promise((resolve) => {
+    onMessage(messaging, (payload) => {
+      console.log('Message received. ', payload);
+      resolve(payload);
+    });
+  });
+
+export { auth, firestore, messaging };
