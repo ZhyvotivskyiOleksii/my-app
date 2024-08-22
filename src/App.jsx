@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage';
 import SupportPage from './pages/SupportPage/SupportPage';
@@ -8,6 +8,7 @@ import MenuPage from './pages/MenuPage/MenuPage';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import BottomNavBar from './components/BottomNavBar/BottomNavBar';
+import { requestForToken, onMessageListener } from './firebase'; // Импортируем функции из firebase.js
 
 import './assets/fonts/fonts.css';
 import './App.css';
@@ -15,6 +16,17 @@ import './App.css';
 function App() {
     const location = useLocation();
     const hideNavBar = ['/auth', '/'].includes(location.pathname);
+
+    useEffect(() => {
+        requestForToken(); // Запрашиваем токен при загрузке приложения
+
+        const unsubscribe = onMessageListener().then(payload => {
+            console.log('Received foreground message: ', payload);
+            // Обработка входящих сообщений
+        }).catch(err => console.log('Failed to receive message: ', err));
+
+        return () => unsubscribe;
+    }, []);
 
     return (
         <div className="appContainer">
@@ -26,7 +38,6 @@ function App() {
                 <Route path="/menu" element={<MenuPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/dashboard" element={<DashboardPage />} />
-                {/* Redirect any undefined paths to the HomePage */}
                 <Route path="*" element={<HomePage />} />
             </Routes>
             {!hideNavBar && <BottomNavBar />}
