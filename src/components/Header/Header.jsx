@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 import logo from '../../assets/images/logos/logo.png';
 import userIcon from '../../assets/images/logos/user-icon.svg';
-import bellIcon from '../../assets/images/icon/bell.svg'; // Иконка уведомлений
+import NotificationBell from '../NotificationBell/NotificationBell'; // Импортируем новый компонент
 import { auth, firestore } from '../../firebase';
 import { doc, getDoc } from "firebase/firestore";
 
@@ -76,7 +76,7 @@ const Header = ({ onProfileClick, onUserLoaded, isAuthenticated }) => {
             {getTitle() && <h1>{getTitle()}</h1>}
             {!shouldHideNavbar && (
                 <div className={styles.iconsContainer}>
-                    <img src={bellIcon} alt="Notifications" className={styles.bellIcon} />
+                    <NotificationBell /> {/* Новый компонент с уведомлениями */}
                     {user ? (
                         <div className={styles.userInfo} onClick={onProfileClick}>
                             <img src={userIcon} alt="User Icon" className={styles.userIcon} />
