@@ -67,8 +67,8 @@ const Header = ({ onProfileClick, onUserLoaded, isAuthenticated }) => {
         return null;
     }
 
-    // Если приложение работает в режиме PWA или пользователь не залогинен, не отображаем навбар
-    const shouldHideNavbar = !isAuthenticated || isStandalone;
+    // Если приложение работает в режиме PWA или пользователь не залогинен, навбар скрыт
+    const shouldHideNavbar = isStandalone && !isAuthenticated;
 
     return (
         <header className={styles.header}>

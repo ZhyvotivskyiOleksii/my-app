@@ -7,7 +7,15 @@ import sportsIcon from '../../assets/images/icon/ball.svg';
 import couponsIcon from '../../assets/images/icon/discount.svg';
 import menuIcon from '../../assets/images/icon/menu.svg';
 
-const BottomNavBar = () => {
+const BottomNavBar = ({ isAuthenticated }) => {
+    // Определяем, работает ли приложение в режиме PWA (standalone)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+    // Если приложение работает в режиме PWA или пользователь не залогинен, меню не отображаем
+    if (!isAuthenticated || isStandalone) {
+        return null;
+    }
+
     return (
         <nav className={styles.bottomNav} aria-label="Bottom navigation">
             <NavLink 
