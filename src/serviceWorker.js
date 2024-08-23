@@ -7,8 +7,11 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
+    // Проверяем, что код выполняется в production среде и браузер поддерживает Service Worker
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
         const publicUrl = new URL(process.env.PUBLIC_URL || '/my-app', window.location.href);
+        
+        // Проверяем, что URL происхождения соответствует текущему местоположению
         if (publicUrl.origin !== window.location.origin) {
             return;
         }
@@ -16,8 +19,8 @@ export function register(config) {
         window.addEventListener('load', () => {
             const swUrl = `${window.location.origin}/service-worker.js`;
 
-
             if (isLocalhost) {
+                // Если приложение работает на localhost, проверяем, существует ли сервисный воркер
                 checkValidServiceWorker(swUrl, config);
 
                 navigator.serviceWorker.ready.then(() => {
@@ -26,6 +29,7 @@ export function register(config) {
                     );
                 });
             } else {
+                // Если приложение работает не на localhost, регистрируем сервисный воркер
                 registerValidSW(swUrl, config);
             }
         });
@@ -44,11 +48,13 @@ function registerValidSW(swUrl, config) {
                 installingWorker.onstatechange = () => {
                     if (installingWorker.state === 'installed') {
                         if (navigator.serviceWorker.controller) {
+                            // Новый контент доступен, пользователю предложено обновиться
                             console.log('New content is available; please refresh.');
                             if (config && config.onUpdate) {
                                 config.onUpdate(registration);
                             }
                         } else {
+                            // Контент кэширован для оффлайн использования
                             console.log('Content is cached for offline use.');
                             if (config && config.onSuccess) {
                                 config.onSuccess(registration);
@@ -64,6 +70,7 @@ function registerValidSW(swUrl, config) {
 }
 
 function checkValidServiceWorker(swUrl, config) {
+    // Проверка существования сервисного воркера
     fetch(swUrl)
         .then((response) => {
             const contentType = response.headers.get('content-type');
@@ -71,12 +78,14 @@ function checkValidServiceWorker(swUrl, config) {
                 response.status === 404 ||
                 (contentType != null && contentType.indexOf('javascript') === -1)
             ) {
+                // Если сервисный воркер не найден, обновляем страницу и отменяем регистрацию
                 navigator.serviceWorker.ready.then((registration) => {
                     registration.unregister().then(() => {
                         window.location.reload();
                     });
                 });
             } else {
+                // Если сервисный воркер найден, регистрируем его
                 registerValidSW(swUrl, config);
             }
         })

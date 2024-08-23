@@ -16,5 +16,4 @@ createRoot(document.getElementById('root')).render(
 );
 
 // Регистрация Service Worker
-const swUrl = `${basename}/serviceWorker.js`;
-serviceWorker.register({ swUrl });
+serviceWorker.register();
