@@ -12,7 +12,7 @@ const Header = ({ onProfileClick, onUserLoaded, isAuthenticated }) => {
     const [loading, setLoading] = useState(true);
     const location = useLocation();
 
-    // Определяем, открыто ли приложение в режиме PWA (standalone)
+    // Определяем, работает ли приложение в режиме PWA (standalone)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
     const getTitle = () => {
@@ -67,8 +67,8 @@ const Header = ({ onProfileClick, onUserLoaded, isAuthenticated }) => {
         return null;
     }
 
-    // Если приложение работает в режиме PWA или пользователь не залогинен, навбар скрыт
-    const shouldHideNavbar = isStandalone && !isAuthenticated;
+    // Логика отображения и скрытия навбар-элементов
+    const shouldHideNavbar = isStandalone && isAuthenticated;
 
     return (
         <header className={styles.header}>
