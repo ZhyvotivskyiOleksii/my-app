@@ -12,6 +12,9 @@ const Header = ({ onProfileClick, onUserLoaded, isAuthenticated }) => {
     const [loading, setLoading] = useState(true);
     const location = useLocation();
 
+    // Определяем, открыто ли приложение в режиме PWA (standalone)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
     const getTitle = () => {
         switch (location.pathname) {
             case '/support':
@@ -64,23 +67,26 @@ const Header = ({ onProfileClick, onUserLoaded, isAuthenticated }) => {
         return null;
     }
 
+    // Если приложение работает в режиме PWA или пользователь не залогинен, не отображаем навбар
+    const shouldHideNavbar = !isAuthenticated || isStandalone;
+
     return (
         <header className={styles.header}>
             <img src={logo} alt="Logo" className={styles.logo} />
             {getTitle() && <h1>{getTitle()}</h1>}
-            <div className={styles.iconsContainer}>
-                {isAuthenticated && user ? ( // Отображаем только если пользователь аутентифицирован
-                    <>
-                        <img src={bellIcon} alt="Notifications" className={styles.bellIcon} />
+            {!shouldHideNavbar && (
+                <div className={styles.iconsContainer}>
+                    <img src={bellIcon} alt="Notifications" className={styles.bellIcon} />
+                    {user ? (
                         <div className={styles.userInfo} onClick={onProfileClick}>
                             <img src={userIcon} alt="User Icon" className={styles.userIcon} />
                             <span className={styles.userName}>{user.displayName || user.email}</span>
                         </div>
-                    </>
-                ) : (
-                    <button className={styles.registerButton} onClick={handleRegisterClick}>Log In</button>
-                )}
-            </div>
+                    ) : (
+                        <button className={styles.registerButton} onClick={handleRegisterClick}>Log In</button>
+                    )}
+                </div>
+            )}
         </header>
     );
 };
