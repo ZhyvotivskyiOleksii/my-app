@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import styles from './BottomNavBar.module.css';
 import homeIcon from '../../assets/images/icon/home.svg';
 import supportIcon from '../../assets/images/icon/support.svg';
@@ -8,10 +8,16 @@ import couponsIcon from '../../assets/images/icon/discount.svg';
 import menuIcon from '../../assets/images/icon/menu.svg';
 
 const BottomNavBar = ({ isAuthenticated }) => {
+    const location = useLocation();
+
     // Определяем, работает ли приложение в режиме PWA (standalone)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-    // Убираем проверку аутентификации, чтобы меню всегда отображалось
+    // Скрываем меню на странице HomePage
+    if (location.pathname === '/' || location.pathname === '/home') {
+        return null;
+    }
+
     return (
         <nav className={styles.bottomNav} aria-label="Bottom navigation">
             <NavLink 
