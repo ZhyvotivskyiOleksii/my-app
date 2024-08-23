@@ -25,7 +25,7 @@ const DashboardPage = () => {
                 <Slider />
             </div>
             <div className={styles.content}>
-                <p>Welcome to the Dashboard Sport</p>
+                <p>Welcome to the Dashboard Sport Ua</p>
             </div>
 
             <ProfileMenu isOpen={isProfileMenuOpen} onClose={toggleProfileMenu} user={currentUser} />
