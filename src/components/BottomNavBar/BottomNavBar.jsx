@@ -13,8 +13,8 @@ const BottomNavBar = ({ isAuthenticated }) => {
     // Определяем, работает ли приложение в режиме PWA (standalone)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-    // Скрываем меню на странице HomePage
-    if (location.pathname === '/' || location.pathname === '/home') {
+    // Скрываем меню на странице HomePage или если приложение в режиме PWA и пользователь не залогинен
+    if (location.pathname === '/' || location.pathname === '/home' || (isStandalone && !isAuthenticated)) {
         return null;
     }
 

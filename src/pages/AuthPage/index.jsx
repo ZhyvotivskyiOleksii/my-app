@@ -6,8 +6,10 @@ import { auth, firestore } from '../../firebase';
 import styles from './style.module.css';
 import logo from '/src/assets/images/logos/logo.png';
 import faceIdIcon from '/src/assets/images/faceid-icon.svg';
+import { useTranslation } from 'react-i18next'; // Для локализации
 
 const AuthPage = () => {
+    const { t } = useTranslation(); // Инициализация локализации
     const [isSignIn, setIsSignIn] = useState(true);
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -43,8 +45,8 @@ const AuthPage = () => {
     };
 
     const validatePassword = (password) => {
-        if (password.length < 8 || !/[A-Z]/.test(password)) {
-            setPasswordError('Password must be at least 8 characters long and contain at least one uppercase letter.');
+        if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+            setPasswordError(t('passwordRequirements'));
             return false;
         } else {
             setPasswordError('');
@@ -60,12 +62,12 @@ const AuthPage = () => {
         const confirmPassword = document.getElementById('confirmPassword').value;
 
         if (!validateEmail(email)) {
-            setEmailError('Please enter a valid email.');
+            setEmailError(t('invalidEmail'));
             return;
         }
 
         if (password !== confirmPassword) {
-            setPasswordError('Passwords do not match!');
+            setPasswordError(t('passwordsDoNotMatch'));
             return;
         }
 
@@ -85,63 +87,57 @@ const AuthPage = () => {
                 showLoadingSpinner(false);
                 showCheckmarkAnimation();
                 setTimeout(() => {
-                    navigate('/dashboard'); // Перенаправление на Dashboard после регистрации
+                    navigate('/dashboard');
                 }, 500);
             } catch (error) {
                 showLoadingSpinner(false);
-                setGeneralError('Registration failed. Please try again.');
+                setGeneralError(t('registrationFailed'));
             }
         }
     };
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
         const email = document.getElementById('signInUsername').value;
         const password = document.getElementById('signInPassword').value;
 
         if (!validateEmail(email)) {
-            setEmailError('Please enter a valid email.');
+            setEmailError(t('invalidEmail'));
             return;
         }
 
         if (!password) {
-            setPasswordError('Please enter your password.');
+            setPasswordError(t('enterPassword'));
             return;
         }
 
         if (accountLocked) {
-            setGeneralError('Your account is locked. Please try again later.');
+            setGeneralError(t('accountLocked'));
             return;
         }
 
         showLoadingSpinner(true);
 
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                showLoadingSpinner(false);
-                showCheckmarkAnimation();
-                setTimeout(() => {
-                    navigate('/dashboard'); // Перенаправление на Dashboard после входа
-                }, 500);
-            })
-            .catch(() => {
-                showLoadingSpinner(false);
-                setLoginAttempts((prev) => {
-                    const newAttempts = prev + 1;
-                    if (newAttempts >= 10) {
-                        setAccountLocked(true);
-                        setShowLockModal(true);  // Показать модальное окно
-                        setTimeout(() => {
-                            setAccountLocked(false);
-                            setLoginAttempts(0);
-                            setShowLockModal(false);  // Закрыть модальное окно после разблокировки
-                        }, 60000);
-                    } else {
-                        setPasswordError('Incorrect password. Please try again.');
-                    }
-                    return newAttempts;
-                });
-            });
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            showLoadingSpinner(false);
+            showCheckmarkAnimation();
+            setTimeout(() => {
+                navigate('/dashboard');
+            }, 500);
+        } catch (error) {
+            showLoadingSpinner(false);
+            switch (error.code) {
+                case 'auth/user-not-found':
+                    setGeneralError(t('noAccountFound'));
+                    break;
+                case 'auth/wrong-password':
+                    setGeneralError(t('incorrectPassword'));
+                    break;
+                default:
+                    setGeneralError(t('loginFailed'));
+            }
+        }
     };
 
     const handleForgotPassword = () => {
@@ -150,23 +146,23 @@ const AuthPage = () => {
             sendPasswordResetEmail(auth, email)
                 .then(() => {
                     setResetEmailSent(true);
-                    setGeneralError('Password reset email sent. Please check your inbox.');
+                    setGeneralError(t('passwordResetSent'));
                     setForgotPasswordModal(false);
                 })
                 .catch(() => {
-                    setGeneralError('Failed to send password reset email. Please check the email address.');
+                    setGeneralError(t('passwordResetFailed'));
                 });
         } else {
-            setGeneralError('Please enter your email to reset your password.');
+            setGeneralError(t('enterEmailForReset'));
         }
     };
 
     useEffect(() => {
-        const savedEmail = localStorage.getItem('rememberMe');
-        const savedPassword = localStorage.getItem('password');
+        const savedEmail = sessionStorage.getItem('rememberMe');
+        const savedPassword = sessionStorage.getItem('password');
         if (savedEmail && savedPassword) {
-            document.getElementById('signInUsername').value = savedEmail;
-            document.getElementById('signInPassword').value = savedPassword;
+            document.getElementById('signInUsername').value = atob(savedEmail);
+            document.getElementById('signInPassword').value = atob(savedPassword);
             document.getElementById('rememberMe').checked = true;
         }
     }, []);
@@ -188,22 +184,36 @@ const AuthPage = () => {
         }
     };
 
+    const handleRememberMe = (email, password) => {
+        if (document.getElementById('rememberMe').checked) {
+            sessionStorage.setItem('rememberMe', btoa(email));
+            sessionStorage.setItem('password', btoa(password));
+        } else {
+            sessionStorage.removeItem('rememberMe');
+            sessionStorage.removeItem('password');
+        }
+    };
+
     return (
         <div className={styles.container}>
-            <img src={logo} alt="Logo" className={styles.logo} />
+            <img src={logo} alt={t('logoAltText')} className={styles.logo} />
 
             <form>
                 <div className={styles.biometricButton}>
-                    <img src={faceIdIcon} alt="Face ID" className={styles.biometricIcon} />
+                    <img src={faceIdIcon} alt={t('biometricLogin')} className={styles.biometricIcon} />
                     <div className={styles.biometricText}>
-                        <div>BIOMETRIC LOGIN</div>
-                        <small>Press and authenticate via Face ID | Touch ID.</small>
+                        <div>{t('biometricLogin')}</div>
+                        <small>{t('biometricLoginText')}</small>
                     </div>
                 </div>
 
                 <div className={styles.tabs}>
-                    <button type="button" onClick={toggleForm} className={isSignIn ? styles.active : ''}>Sign In</button>
-                    <button type="button" onClick={toggleForm} className={!isSignIn ? styles.active : ''}>Sign Up</button>
+                    <button type="button" onClick={toggleForm} className={isSignIn ? styles.active : ''}>
+                        {t('signIn')}
+                    </button>
+                    <button type="button" onClick={toggleForm} className={!isSignIn ? styles.active : ''}>
+                        {t('signUp')}
+                    </button>
                 </div>
 
                 {isSignIn ? (
@@ -211,7 +221,7 @@ const AuthPage = () => {
                         <input 
                             type="email" 
                             id="signInUsername" 
-                            placeholder="Email" 
+                            placeholder={t('email')} 
                             autoComplete="username" 
                             value={emailForReset} 
                             onChange={(e) => {
@@ -225,7 +235,7 @@ const AuthPage = () => {
                             <input
                                 type={passwordVisible ? 'text' : 'password'}
                                 id="signInPassword"
-                                placeholder="Password"
+                                placeholder={t('password')}
                                 autoComplete="current-password"
                                 onChange={() => setPasswordError('')}
                             />
@@ -239,22 +249,26 @@ const AuthPage = () => {
                         {passwordError && <p className={styles.error}>{passwordError}</p>}
                         <div className={styles.checkboxContainer}>
                             <input type="checkbox" id="rememberMe" />
-                            <label htmlFor="rememberMe">Remember me</label>
+                            <label htmlFor="rememberMe">{t('rememberMe')}</label>
                         </div>
-                        <button type="submit" className={styles.submitButton} onClick={handleSignIn}>Sign In</button>
-                        <a href="#" className={styles.forgotPassword} onClick={() => setForgotPasswordModal(true)}>Forgot password?</a>
-                        <a href="/my-app/" className={styles.backToHome}>Back to Home</a>
+                        <button type="submit" className={styles.submitButton} onClick={handleSignIn}>
+                            {t('signIn')}
+                        </button>
+                        <a href="#" className={styles.forgotPassword} onClick={() => setForgotPasswordModal(true)}>
+                            {t('forgotPassword')}
+                        </a>
+                        <a href="/my-app/" className={styles.backToHome}>{t('backToHome')}</a>
                     </div>
                 ) : (
                     <div className={styles.form}>
-                        <input type="text" id="signUpUsername" placeholder="Username or ID" autoComplete="username" />
-                        <input type="email" id="signUpEmail" placeholder="Email" autoComplete="email" />
+                        <input type="text" id="signUpUsername" placeholder={t('username')} autoComplete="username" />
+                        <input type="email" id="signUpEmail" placeholder={t('email')} autoComplete="email" />
                         {emailError && <p className={styles.error}>{emailError}</p>}
                         <div className={styles.passwordContainer}>
                             <input
                                 type={passwordVisible ? 'text' : 'password'}
                                 id="signUpPassword"
-                                placeholder="Password"
+                                placeholder={t('password')}
                                 onChange={(e) => validatePassword(e.target.value)}
                                 autoComplete="new-password"
                             />
@@ -269,7 +283,7 @@ const AuthPage = () => {
                             <input
                                 type={confirmPasswordVisible ? 'text' : 'password'}
                                 id="confirmPassword"
-                                placeholder="Confirm Password"
+                                placeholder={t('confirmPassword')}
                                 autoComplete="new-password"
                             />
                             <span
@@ -280,7 +294,9 @@ const AuthPage = () => {
                             </span>
                         </div>
                         {passwordError && <p className={styles.error}>{passwordError}</p>}
-                        <button type="submit" className={styles.submitButton} onClick={handleSignUp}>Sign Up</button>
+                        <button type="submit" className={styles.submitButton} onClick={handleSignUp}>
+                            {t('signUp')}
+                        </button>
                     </div>
                 )}
             </form>
@@ -288,14 +304,18 @@ const AuthPage = () => {
             {forgotPasswordModal && (
                 <div className={styles.errorPopup}>
                     <div className={styles.errorMessage}>
-                        <p>Enter your email to reset your password.</p>
+                        <p>{t('enterEmailForReset')}</p>
                         <input
                             type="email"
                             value={emailForReset}
                             onChange={(e) => setEmailForReset(e.target.value)}
                         />
-                        <button className={styles.resetPasswordButton} onClick={handleForgotPassword}>Reset Password</button>
-                        <button className={styles.cancelButton} onClick={() => setForgotPasswordModal(false)}>Cancel</button>
+                        <button className={styles.resetPasswordButton} onClick={handleForgotPassword}>
+                            {t('resetPassword')}
+                        </button>
+                        <button className={styles.cancelButton} onClick={() => setForgotPasswordModal(false)}>
+                            {t('cancel')}
+                        </button>
                     </div>
                 </div>
             )}
@@ -303,8 +323,10 @@ const AuthPage = () => {
             {showLockModal && (
                 <div className={styles.errorPopup}>
                     <div className={styles.errorMessage}>
-                        <p>Your account is locked for 1 minute due to too many failed login attempts. Please try again later.</p>
-                        <button className={styles.okButton} onClick={() => setShowLockModal(false)}>OK</button>
+                        <p>{t('accountLockedMessage')}</p>
+                        <button className={styles.okButton} onClick={() => setShowLockModal(false)}>
+                            {t('ok')}
+                        </button>
                     </div>
                 </div>
             )}
