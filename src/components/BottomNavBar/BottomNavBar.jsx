@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import styles from './BottomNavBar.module.css';
 import homeIcon from '../../assets/images/icon/home.svg';
@@ -6,18 +6,27 @@ import supportIcon from '../../assets/images/icon/support.svg';
 import sportsIcon from '../../assets/images/icon/ball.svg';
 import couponsIcon from '../../assets/images/icon/discount.svg';
 import menuIcon from '../../assets/images/icon/menu.svg';
+import { auth } from '../../firebase';  // Подключаем Firebase для проверки аутентификации
 
-const BottomNavBar = ({ isAuthenticated }) => {
+const BottomNavBar = () => {
     const location = useLocation();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Условие для скрытия меню на главной странице
-    const hideMenu = location.pathname === '/' || location.pathname === '/home';
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            setIsAuthenticated(!!user);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    // Если находимся на главной странице или пользователь не залогинен, не отображаем меню
+    if ((location.pathname === '/' || location.pathname === '/home') || !isAuthenticated) {
+        return null;
+    }
 
     return (
-        <nav 
-            className={`${styles.bottomNav} ${hideMenu ? styles.hidden : ''}`} 
-            aria-label="Bottom navigation"
-        >
+        <nav className={styles.bottomNav} aria-label="Bottom navigation">
             <NavLink 
                 to="/dashboard" 
                 className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
