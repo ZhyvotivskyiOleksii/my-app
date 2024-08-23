@@ -12,6 +12,11 @@
     box-sizing: border-box; /* Учитываем padding и border в ширине и высоте */
 }
 
+/* Класс для скрытия меню */
+.hidden {
+    display: none;
+}
+
 .navItem {
     text-align: center;
     color: #fff;

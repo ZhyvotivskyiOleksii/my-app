@@ -10,17 +10,13 @@ import menuIcon from '../../assets/images/icon/menu.svg';
 const BottomNavBar = ({ isAuthenticated }) => {
     const location = useLocation();
 
-    // Определяем, работает ли приложение в режиме PWA (standalone)
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
     // Условие для скрытия меню на главной странице
     const hideMenu = location.pathname === '/' || location.pathname === '/home';
 
     return (
         <nav 
-            className={styles.bottomNav} 
-            aria-label="Bottom navigation" 
-            style={{ display: hideMenu ? 'none' : 'flex' }} // Применяем display: none, если на главной странице
+            className={`${styles.bottomNav} ${hideMenu ? styles.hidden : ''}`} 
+            aria-label="Bottom navigation"
         >
             <NavLink 
                 to="/dashboard" 
