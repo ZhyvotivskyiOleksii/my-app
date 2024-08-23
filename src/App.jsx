@@ -15,17 +15,22 @@ import './App.css';
 
 function App() {
     const location = useLocation();
-    const hideNavBar = ['/auth', '/'].includes(location.pathname);
+    const hideNavBar = ['/auth', '/'].includes(location.pathname); // Массив с путями, где навбар должен быть скрыт
 
     useEffect(() => {
         requestForToken(); // Запрашиваем токен при загрузке приложения
 
         const unsubscribe = onMessageListener().then(payload => {
             console.log('Received foreground message: ', payload);
-            // Обработка входящих сообщений
+            // Обработка входящих сообщений, например, показывать уведомление или обновлять UI
         }).catch(err => console.log('Failed to receive message: ', err));
 
-        return () => unsubscribe;
+        // Возвращаем функцию отписки при размонтировании компонента
+        return () => {
+            if (typeof unsubscribe === 'function') {
+                unsubscribe();
+            }
+        };
     }, []);
 
     return (
