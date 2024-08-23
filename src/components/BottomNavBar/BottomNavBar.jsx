@@ -13,13 +13,15 @@ const BottomNavBar = ({ isAuthenticated }) => {
     // Определяем, работает ли приложение в режиме PWA (standalone)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-    // Скрываем меню на странице HomePage только если пользователь не залогинен
-    if ((location.pathname === '/' || location.pathname === '/home') && !isAuthenticated) {
-        return null;
-    }
+    // Условие для скрытия меню на главной странице
+    const hideMenu = location.pathname === '/' || location.pathname === '/home';
 
     return (
-        <nav className={styles.bottomNav} aria-label="Bottom navigation">
+        <nav 
+            className={styles.bottomNav} 
+            aria-label="Bottom navigation" 
+            style={{ display: hideMenu ? 'none' : 'flex' }} // Применяем display: none, если на главной странице
+        >
             <NavLink 
                 to="/dashboard" 
                 className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
