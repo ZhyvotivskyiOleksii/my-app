@@ -11,11 +11,7 @@ const BottomNavBar = ({ isAuthenticated }) => {
     // Определяем, работает ли приложение в режиме PWA (standalone)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-    // Если приложение работает в режиме PWA и пользователь не залогинен, меню не отображаем
-    if (isStandalone && !isAuthenticated) {
-        return null;
-    }
-
+    // Убираем проверку аутентификации, чтобы меню всегда отображалось
     return (
         <nav className={styles.bottomNav} aria-label="Bottom navigation">
             <NavLink 
