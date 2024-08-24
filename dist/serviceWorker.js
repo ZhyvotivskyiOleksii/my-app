@@ -15,7 +15,7 @@ export function register(config) {
         }
 
         window.addEventListener('load', () => {
-            const swUrl = `${import.meta.env.BASE_URL}firebase-messaging-sw.js`; // Если файл находится в public
+            const swUrl = `${import.meta.env.BASE_URL}firebase-messaging-sw.js`; // Убедитесь, что файл находится в public
 
             if (isLocalhost) {
                 // Если приложение работает на localhost, проверяем, существует ли сервисный воркер
