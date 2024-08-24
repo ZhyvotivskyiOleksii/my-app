@@ -23,14 +23,13 @@ function App() {
 
         // Проверяем аутентифицирован ли пользователь
         const unsubscribeAuth = auth.onAuthStateChanged(user => {
-            if (user) {
-                // Пользователь аутентифицирован, перенаправляем на Dashboard
+            console.log('User:', user); // Лог для отладки
+            if (user && location.pathname === '/') {
+                // Если пользователь аутентифицирован и находится на главной странице, перенаправляем на Dashboard
                 navigate('/dashboard');
-            } else {
-                // Пользователь не аутентифицирован, остаемся на текущей странице
-                if (location.pathname !== '/auth') {
-                    navigate('/');
-                }
+            } else if (!user && location.pathname !== '/auth') {
+                // Если пользователь не аутентифицирован и находится не на странице аутентификации, перенаправляем на главную
+                navigate('/');
             }
         });
 
@@ -61,7 +60,7 @@ function App() {
                 <Route path="/menu" element={<MenuPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="*" element={<HomePage />} />
+                <Route path="*" element={<HomePage />} /> {/* Этот маршрут для обработки неизвестных путей */}
             </Routes>
             {!hideNavBar && <BottomNavBar />}
         </div>
