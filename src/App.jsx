@@ -25,11 +25,13 @@ function App() {
         const unsubscribeAuth = auth.onAuthStateChanged(user => {
             if (user) {
                 // Пользователь аутентифицирован, перенаправляем на Dashboard
-                navigate('/dashboard');
+                if (location.pathname === '/') {
+                    navigate('/dashboard');
+                }
             } else {
                 // Пользователь не аутентифицирован, остаемся на текущей странице
                 if (location.pathname !== '/auth') {
-                    navigate('/');
+                    navigate('/auth');
                 }
             }
         });

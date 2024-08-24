@@ -6,7 +6,7 @@ import supportIcon from '../../assets/images/icon/support.svg';
 import sportsIcon from '../../assets/images/icon/ball.svg';
 import couponsIcon from '../../assets/images/icon/discount.svg';
 import menuIcon from '../../assets/images/icon/menu.svg';
-import { auth } from '../../firebase';  // Подключаем Firebase для проверки аутентификации
+import { auth } from '../../firebase';
 
 const BottomNavBar = () => {
     const location = useLocation();
@@ -20,8 +20,8 @@ const BottomNavBar = () => {
         return () => unsubscribe();
     }, []);
 
-    // Если находимся на главной странице или пользователь не залогинен, не отображаем меню
-    if ((location.pathname === '/' || location.pathname === '/home') || !isAuthenticated) {
+    // Если пользователь не залогинен, не отображаем меню
+    if (!isAuthenticated) {
         return null;
     }
 
