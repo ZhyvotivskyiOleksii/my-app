@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Добавляем Link для корректной маршрутизации
+import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, firestore } from '../../firebase';
@@ -254,19 +254,17 @@ const AuthPage = () => {
                             </span>
                         </div>
                         {passwordError && <p className={styles.error}>{passwordError}</p>}
-                        {generalError && <p className={styles.error}>{generalError}</p>}
                         <div className={styles.checkboxContainer}>
                             <input type="checkbox" id="rememberMe" />
                             <label htmlFor="rememberMe">{t('rememberMe')}</label>
                         </div>
-                        <button type="submit" className={styles.submitButton} onClick={(e) => { handleRememberMe(email, password); handleSignIn(e); }}>
+                        <button type="submit" className={styles.submitButton} onClick={handleSignIn}>
                             {t('signIn')}
                         </button>
                         <a href="#" className={styles.forgotPassword} onClick={() => setForgotPasswordModal(true)}>
                             {t('forgotPassword')}
                         </a>
-                        {/* Исправлено на Link для корректной работы маршрутизации */}
-                        <Link to="/" className={styles.backToHome}>{t('backToHome')}</Link>
+                        <a href="/my-app/" className={styles.backToHome}>{t('backToHome')}</a>
                     </div>
                 ) : (
                     <div className={styles.form}>
@@ -303,7 +301,7 @@ const AuthPage = () => {
                             </span>
                         </div>
                         {passwordError && <p className={styles.error}>{passwordError}</p>}
-                        <button type="submit" className={styles.submitButton} onClick={(e) => { handleRememberMe(email, password); handleSignUp(e); }}>
+                        <button type="submit" className={styles.submitButton} onClick={handleSignUp}>
                             {t('signUp')}
                         </button>
                     </div>
