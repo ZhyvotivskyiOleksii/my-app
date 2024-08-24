@@ -8,7 +8,7 @@ import MenuPage from './pages/MenuPage/MenuPage';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import BottomNavBar from './components/BottomNavBar/BottomNavBar';
-import { auth, requestForToken, onMessageListener } from './firebase'; // Импортируем функции из firebase.js
+import { auth, requestForToken, onMessageListener } from './firebase';
 
 import './assets/fonts/fonts.css';
 import './App.css';
@@ -16,16 +16,20 @@ import './App.css';
 function App() {
     const location = useLocation();
     const navigate = useNavigate();
-    const hideNavBar = ['/auth', '/'].includes(location.pathname); // Массив с путями, где навбар должен быть скрыт
+    const hideNavBar = ['/auth', '/'].includes(location.pathname);
 
     useEffect(() => {
         requestForToken(); // Запрашиваем токен при загрузке приложения
 
         const unsubscribeAuth = auth.onAuthStateChanged(user => {
-            if (user && location.pathname === '/') {
-                navigate('/dashboard');
-            } else if (!user && location.pathname !== '/auth') {
-                navigate('/');
+            if (user) {
+                if (location.pathname === '/' || location.pathname === '/auth') {
+                    navigate('/dashboard');
+                }
+            } else {
+                if (location.pathname !== '/auth') {
+                    navigate('/');
+                }
             }
         });
 
@@ -44,7 +48,7 @@ function App() {
                 <Route path="/menu" element={<MenuPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="*" element={<HomePage />} /> {/* Этот маршрут для обработки неизвестных путей */}
+                <Route path="*" element={<HomePage />} />
             </Routes>
             {!hideNavBar && <BottomNavBar />}
         </div>
