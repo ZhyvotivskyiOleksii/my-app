@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage';
 import SupportPage from './pages/SupportPage/SupportPage';
 import SportsPage from './pages/SportsPage/SportsPage';
@@ -8,20 +8,34 @@ import MenuPage from './pages/MenuPage/MenuPage';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import BottomNavBar from './components/BottomNavBar/BottomNavBar';
-import { requestForToken, onMessageListener } from './firebase'; // Импортируем функции из firebase.js
+import { auth, requestForToken, onMessageListener } from './firebase'; // Импортируем функции из firebase.js
 
 import './assets/fonts/fonts.css';
 import './App.css';
 
 function App() {
     const location = useLocation();
+    const navigate = useNavigate();
     const hideNavBar = ['/auth', '/'].includes(location.pathname); // Массив с путями, где навбар должен быть скрыт
 
     useEffect(() => {
         requestForToken(); // Запрашиваем токен при загрузке приложения
 
+        // Проверяем аутентифицирован ли пользователь
+        const unsubscribeAuth = auth.onAuthStateChanged(user => {
+            if (user) {
+                // Пользователь аутентифицирован, перенаправляем на Dashboard
+                navigate('/dashboard');
+            } else {
+                // Пользователь не аутентифицирован, остаемся на текущей странице
+                if (location.pathname !== '/auth') {
+                    navigate('/');
+                }
+            }
+        });
+
         // Подписка на входящие сообщения
-        const unsubscribe = onMessageListener()
+        const unsubscribeMessaging = onMessageListener()
             .then(payload => {
                 console.log('Received foreground message: ', payload);
                 // Обработка входящих сообщений, например, показывать уведомление или обновлять UI
@@ -30,11 +44,12 @@ function App() {
 
         // Возвращаем функцию отписки при размонтировании компонента
         return () => {
-            if (unsubscribe && typeof unsubscribe.then === 'function') {
-                unsubscribe.then(unsub => unsub());
+            unsubscribeAuth(); // Отписка от наблюдателя аутентификации
+            if (unsubscribeMessaging && typeof unsubscribeMessaging.then === 'function') {
+                unsubscribeMessaging.then(unsub => unsub());
             }
         };
-    }, []);
+    }, [location.pathname, navigate]);
 
     return (
         <div className="appContainer">

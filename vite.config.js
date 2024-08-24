@@ -2,14 +2,13 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: '/my-app/',  // Убедитесь, что это соответствует пути развертывания
+  base: process.env.NODE_ENV === 'production' ? '/my-app/' : '/', // Правильный базовый URL в зависимости от среды
   plugins: [react()],
-  // Дополнительные настройки при необходимости
   server: {
-    open: true,  // Опционально: автоматически открывать браузер при запуске dev-сервера
+    open: true,
   },
   build: {
-    outDir: 'dist',  // Опционально: каталог для вывода собранного проекта
-    sourcemap: true,  // Опционально: генерация карт источников для отладки
+    outDir: 'dist',
+    sourcemap: true,
   },
 });

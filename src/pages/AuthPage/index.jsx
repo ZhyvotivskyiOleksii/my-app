@@ -84,6 +84,9 @@ const AuthPage = () => {
                     premiumExpiresAt: Date.now() + 86400000,
                 });
 
+                // Сохраняем состояние аутентификации в localStorage
+                localStorage.setItem('isAuthenticated', 'true');
+
                 showLoadingSpinner(false);
                 showCheckmarkAnimation();
                 setTimeout(() => {
@@ -120,6 +123,10 @@ const AuthPage = () => {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
+
+            // Сохраняем состояние аутентификации в localStorage
+            localStorage.setItem('isAuthenticated', 'true');
+
             showLoadingSpinner(false);
             showCheckmarkAnimation();
             setTimeout(() => {
