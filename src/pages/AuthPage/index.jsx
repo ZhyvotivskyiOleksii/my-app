@@ -15,7 +15,6 @@ const AuthPage = () => {
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [generalError, setGeneralError] = useState('');
     const [emailForReset, setEmailForReset] = useState('');
     const [resetEmailSent, setResetEmailSent] = useState(false);
@@ -29,7 +28,6 @@ const AuthPage = () => {
         setIsSignIn(!isSignIn);
         setEmailError('');
         setPasswordError('');
-        setConfirmPasswordError('');
         setGeneralError('');
     };
 
@@ -69,7 +67,7 @@ const AuthPage = () => {
         }
 
         if (password !== confirmPassword) {
-            setConfirmPasswordError(t('passwordsDoNotMatch'));
+            setPasswordError(t('passwordsDoNotMatch'));
             return;
         }
 
@@ -288,14 +286,12 @@ const AuthPage = () => {
                                 {passwordVisible ? '👁️' : '👁️‍🗨️'}
                             </span>
                         </div>
-                        {passwordError && <p className={styles.error}>{passwordError}</p>}
                         <div className={styles.passwordContainer}>
                             <input
                                 type={confirmPasswordVisible ? 'text' : 'password'}
                                 id="confirmPassword"
                                 placeholder={t('confirmPassword')}
                                 autoComplete="new-password"
-                                onChange={(e) => setConfirmPasswordError('')}
                             />
                             <span
                                 className={styles.passwordToggle}
@@ -304,7 +300,7 @@ const AuthPage = () => {
                                 {confirmPasswordVisible ? '👁️' : '👁️‍🗨️'}
                             </span>
                         </div>
-                        {confirmPasswordError && <p className={styles.error}>{confirmPasswordError}</p>}
+                        {passwordError && <p className={styles.error}>{passwordError}</p>}
                         <button type="submit" className={styles.submitButton} onClick={handleSignUp}>
                             {t('signUp')}
                         </button>
