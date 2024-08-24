@@ -20,15 +20,18 @@ function App() {
     useEffect(() => {
         requestForToken(); // Запрашиваем токен при загрузке приложения
 
-        const unsubscribe = onMessageListener().then(payload => {
-            console.log('Received foreground message: ', payload);
-            // Обработка входящих сообщений, например, показывать уведомление или обновлять UI
-        }).catch(err => console.log('Failed to receive message: ', err));
+        // Подписка на входящие сообщения
+        const unsubscribe = onMessageListener()
+            .then(payload => {
+                console.log('Received foreground message: ', payload);
+                // Обработка входящих сообщений, например, показывать уведомление или обновлять UI
+            })
+            .catch(err => console.log('Failed to receive message: ', err));
 
         // Возвращаем функцию отписки при размонтировании компонента
         return () => {
-            if (typeof unsubscribe === 'function') {
-                unsubscribe();
+            if (unsubscribe && typeof unsubscribe.then === 'function') {
+                unsubscribe.then(unsub => unsub());
             }
         };
     }, []);

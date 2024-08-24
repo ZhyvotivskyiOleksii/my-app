@@ -26,10 +26,13 @@ const messaging = getMessaging(app);
 // Request permission to receive notifications and get the token
 export const requestForToken = async () => {
   try {
-    const currentToken = await getToken(messaging, { vapidKey: "BEk6nBtXhbzwYRpHJbNAchNpA2NO8eMXRIVc_B1ZnPYy10jP8dWXOLLBv0Dh_35KfrzhqJPydsOmhb5UuZ1mRxg" });
+    const currentToken = await getToken(messaging, {
+      vapidKey: "BEk6nBtXhbzwYRpHJbNAchNpA2NO8eMXRIVc_B1ZnPYy10jP8dWXOLLBv0Dh_35KfrzhqJPydsOmhb5UuZ1mRxg"
+    });
+
     if (currentToken) {
       console.log('Token received: ', currentToken);
-      // Отправьте токен на сервер или сохраните его для использования
+      // Send the token to your server or save it for later use
     } else {
       console.log('No registration token available. Request permission to generate one.');
     }
