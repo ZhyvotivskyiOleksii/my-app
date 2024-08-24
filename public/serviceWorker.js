@@ -1,23 +1,21 @@
 const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
     window.location.hostname === '[::1]' ||
-    window.location.hostname.match(
-        /^127(?:\.[0-9]+){0,2}\.[0-9]+$/
-    )
+    window.location.hostname.match(/^127(?:\.[0-9]+){0,2}\.[0-9]+$/)
 );
 
 export function register(config) {
     // Проверяем, что код выполняется в production среде и браузер поддерживает Service Worker
-    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-        const publicUrl = new URL(process.env.PUBLIC_URL || '/my-app', window.location.href);
-        
+    if (import.meta.env.MODE === 'production' && 'serviceWorker' in navigator) {
+        const publicUrl = new URL(import.meta.env.BASE_URL || '/', window.location.href);
+
         // Проверяем, что URL происхождения соответствует текущему местоположению
         if (publicUrl.origin !== window.location.origin) {
             return;
         }
 
         window.addEventListener('load', () => {
-            const swUrl = `${window.location.origin}/service-worker.js`;
+            const swUrl = `${import.meta.env.BASE_URL}firebase-messaging-sw.js`; // Если файл находится в public
 
             if (isLocalhost) {
                 // Если приложение работает на localhost, проверяем, существует ли сервисный воркер
@@ -90,9 +88,7 @@ function checkValidServiceWorker(swUrl, config) {
             }
         })
         .catch(() => {
-            console.log(
-                'No internet connection found. App is running in offline mode.'
-            );
+            console.log('No internet connection found. App is running in offline mode.');
         });
 }
 
