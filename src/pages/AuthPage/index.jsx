@@ -45,8 +45,19 @@ const AuthPage = () => {
     };
 
     const validatePassword = (password) => {
-        if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-            setPasswordError(t('passwordRequirements'));
+        const requirements = [];
+        if (password.length < 8) {
+            requirements.push(t('min8Characters'));
+        }
+        if (!/[A-Z]/.test(password)) {
+            requirements.push(t('oneUppercase'));
+        }
+        if (!/[0-9]/.test(password)) {
+            requirements.push(t('oneNumber'));
+        }
+
+        if (requirements.length > 0) {
+            setPasswordError(requirements.join('. '));
             return false;
         } else {
             setPasswordError('');
@@ -72,7 +83,6 @@ const AuthPage = () => {
         }
 
         if (validatePassword(password)) {
-            showLoadingSpinner(true);
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
@@ -84,16 +94,9 @@ const AuthPage = () => {
                     premiumExpiresAt: Date.now() + 86400000,
                 });
 
-                // Сохраняем состояние аутентификации в localStorage
                 localStorage.setItem('isAuthenticated', 'true');
-
-                showLoadingSpinner(false);
-                showCheckmarkAnimation();
-                setTimeout(() => {
-                    navigate('/dashboard');
-                }, 500);
+                navigate('/dashboard');
             } catch (error) {
-                showLoadingSpinner(false);
                 setGeneralError(t('registrationFailed'));
             }
         }
@@ -119,21 +122,11 @@ const AuthPage = () => {
             return;
         }
 
-        showLoadingSpinner(true);
-
         try {
             await signInWithEmailAndPassword(auth, email, password);
-
-            // Сохраняем состояние аутентификации в localStorage
             localStorage.setItem('isAuthenticated', 'true');
-
-            showLoadingSpinner(false);
-            showCheckmarkAnimation();
-            setTimeout(() => {
-                navigate('/dashboard');
-            }, 500);
+            navigate('/dashboard');
         } catch (error) {
-            showLoadingSpinner(false);
             switch (error.code) {
                 case 'auth/user-not-found':
                     setGeneralError(t('noAccountFound'));
@@ -174,37 +167,9 @@ const AuthPage = () => {
         }
     }, []);
 
-    const showCheckmarkAnimation = () => {
-        const checkmark = document.querySelector(`.${styles['success-checkmark']}`);
-        checkmark.classList.add(styles['show-checkmark']);
-        setTimeout(() => {
-            checkmark.classList.remove(styles['show-checkmark']);
-        }, 1000);
-    };
-
-    const showLoadingSpinner = (show) => {
-        const spinner = document.getElementById('loadingSpinner');
-        if (show) {
-            spinner.style.display = 'block';
-        } else {
-            spinner.style.display = 'none';
-        }
-    };
-
-    const handleRememberMe = (email, password) => {
-        if (document.getElementById('rememberMe').checked) {
-            sessionStorage.setItem('rememberMe', btoa(email));
-            sessionStorage.setItem('password', btoa(password));
-        } else {
-            sessionStorage.removeItem('rememberMe');
-            sessionStorage.removeItem('password');
-        }
-    };
-
     return (
         <div className={styles.container}>
             <img src={logo} alt={t('logoAltText')} className={styles.logo} />
-
             <form>
                 <div className={styles.biometricButton}>
                     <img src={faceIdIcon} alt={t('biometricLogin')} className={styles.biometricIcon} />
@@ -286,6 +251,7 @@ const AuthPage = () => {
                                 {passwordVisible ? '👁️' : '👁️‍🗨️'}
                             </span>
                         </div>
+                        {passwordError && <p className={styles.error}>{passwordError}</p>}
                         <div className={styles.passwordContainer}>
                             <input
                                 type={confirmPasswordVisible ? 'text' : 'password'}
@@ -300,7 +266,6 @@ const AuthPage = () => {
                                 {confirmPasswordVisible ? '👁️' : '👁️‍🗨️'}
                             </span>
                         </div>
-                        {passwordError && <p className={styles.error}>{passwordError}</p>}
                         <button type="submit" className={styles.submitButton} onClick={handleSignUp}>
                             {t('signUp')}
                         </button>
@@ -337,12 +302,6 @@ const AuthPage = () => {
                     </div>
                 </div>
             )}
-
-            <div id="loadingSpinner" className={styles.loadingSpinner}></div>
-
-            <div className={styles['success-checkmark']}>
-                <div className={styles['checkmark-icon']}></div>
-            </div>
         </div>
     );
 };

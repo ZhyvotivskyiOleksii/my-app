@@ -21,32 +21,16 @@ function App() {
     useEffect(() => {
         requestForToken(); // Запрашиваем токен при загрузке приложения
 
-        // Проверяем аутентифицирован ли пользователь
         const unsubscribeAuth = auth.onAuthStateChanged(user => {
-            console.log('User:', user); // Лог для отладки
             if (user && location.pathname === '/') {
-                // Если пользователь аутентифицирован и находится на главной странице, перенаправляем на Dashboard
                 navigate('/dashboard');
             } else if (!user && location.pathname !== '/auth') {
-                // Если пользователь не аутентифицирован и находится не на странице аутентификации, перенаправляем на главную
                 navigate('/');
             }
         });
 
-        // Подписка на входящие сообщения
-        const unsubscribeMessaging = onMessageListener()
-            .then(payload => {
-                console.log('Received foreground message: ', payload);
-                // Обработка входящих сообщений, например, показывать уведомление или обновлять UI
-            })
-            .catch(err => console.log('Failed to receive message: ', err));
-
-        // Возвращаем функцию отписки при размонтировании компонента
         return () => {
-            unsubscribeAuth(); // Отписка от наблюдателя аутентификации
-            if (unsubscribeMessaging && typeof unsubscribeMessaging.then === 'function') {
-                unsubscribeMessaging.then(unsub => unsub());
-            }
+            unsubscribeAuth();
         };
     }, [location.pathname, navigate]);
 
