@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App.jsx';
 import './index.css';
 
-const basename = import.meta.env.VITE_PUBLIC_URL || "/my-app";
+const basename = '/my-app'; // Убедитесь, что это соответствует базовому пути
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
