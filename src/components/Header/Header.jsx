@@ -12,7 +12,6 @@ const Header = ({ onProfileClick, onUserLoaded, isAuthenticated }) => {
     const [loading, setLoading] = useState(true);
     const location = useLocation();
 
-    // Определяем, работает ли приложение в режиме PWA (standalone)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
     const getTitle = () => {
