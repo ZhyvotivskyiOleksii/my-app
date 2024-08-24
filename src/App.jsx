@@ -8,7 +8,7 @@ import MenuPage from './pages/MenuPage/MenuPage';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import BottomNavBar from './components/BottomNavBar/BottomNavBar';
-import { auth, requestForToken, onMessageListener } from './firebase';
+import { auth, requestForToken, onMessageListener } from './firebase'; // Импортируем функции из firebase.js
 
 import './assets/fonts/fonts.css';
 import './App.css';
@@ -16,25 +16,38 @@ import './App.css';
 function App() {
     const location = useLocation();
     const navigate = useNavigate();
-    const hideNavBar = ['/auth', '/'].includes(location.pathname);
+    const hideNavBar = ['/auth', '/'].includes(location.pathname); // Массив с путями, где навбар должен быть скрыт
 
     useEffect(() => {
         requestForToken(); // Запрашиваем токен при загрузке приложения
 
+        // Проверяем аутентифицирован ли пользователь
         const unsubscribeAuth = auth.onAuthStateChanged(user => {
             if (user) {
-                if (location.pathname === '/' || location.pathname === '/auth') {
-                    navigate('/dashboard');
-                }
+                // Пользователь аутентифицирован, перенаправляем на Dashboard
+                navigate('/dashboard');
             } else {
+                // Пользователь не аутентифицирован, остаемся на текущей странице
                 if (location.pathname !== '/auth') {
                     navigate('/');
                 }
             }
         });
 
+        // Подписка на входящие сообщения
+        const unsubscribeMessaging = onMessageListener()
+            .then(payload => {
+                console.log('Received foreground message: ', payload);
+                // Обработка входящих сообщений, например, показывать уведомление или обновлять UI
+            })
+            .catch(err => console.log('Failed to receive message: ', err));
+
+        // Возвращаем функцию отписки при размонтировании компонента
         return () => {
-            unsubscribeAuth();
+            unsubscribeAuth(); // Отписка от наблюдателя аутентификации
+            if (unsubscribeMessaging && typeof unsubscribeMessaging.then === 'function') {
+                unsubscribeMessaging.then(unsub => unsub());
+            }
         };
     }, [location.pathname, navigate]);
 
